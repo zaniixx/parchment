@@ -1,0 +1,19 @@
+---
+pagination:
+  data: collections
+  size: 1
+  alias: tag
+  filter:
+    - all
+    - writing
+permalink: "/{{ tag }}/"
+eleventyExcludeFromCollections: true
+layout: layouts/base.njk
+---
+<h1>{{ tag | capitalize }}</h1>
+
+<ul class="feed">
+  {% for item in collections[tag] | reverse %}
+    {% include "partials/feed-item.njk" %}
+  {% endfor %}
+</ul>

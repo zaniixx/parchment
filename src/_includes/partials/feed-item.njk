@@ -1,0 +1,14 @@
+{%- set isNote = "notes" in item.data.tags -%}
+{%- set isGallery = "galleries" in item.data.tags -%}
+<li class="feed-item {% if isNote %}note{% endif %}">
+  <p class="kicker">
+    {% if isGallery %}Gallery{% elif isNote %}Note{% else %}Post{% endif %}
+    · <time datetime="{{ item.date | isoDate }}">{{ item.date | readableDate }}</time>
+  </p>
+  {% if isNote %}
+    <div class="note-body">{{ item.templateContent | safe }}</div>
+  {% else %}
+    <h2><a href="{{ item.url | url }}">{{ item.data.title }}</a></h2>
+    {% if item.data.excerpt %}<p class="excerpt">{{ item.data.excerpt }}</p>{% endif %}
+  {% endif %}
+</li>

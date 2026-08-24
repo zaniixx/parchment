@@ -1,0 +1,12 @@
+<footer class="site-footer">
+  <div class="container">
+    <span>© {{ currentYear }} {{ site.author }}</span>
+    <span>
+      {%- if weights[page.url] %}
+        This page: {{ weights[page.url].bytes | prettyBytes }} ({{ weights[page.url].gzipBytes | prettyBytes }} gzipped) ·
+      {%- endif %}
+      <a href="{{ '/colophon/' | url }}" class="unstyled">colophon</a>
+      · <a href="{{ '/feed.xml' | url }}" class="unstyled">rss</a>
+    </span>
+  </div>
+</footer>

@@ -1,0 +1,23 @@
+<details class="build-stats" open>
+  <summary>Live network timing (this page load)</summary>
+  <dl id="net-timing-body">
+    <dt>Loading…</dt><dd></dd>
+  </dl>
+</details>
+
+{% if weights %}
+<table class="weights-table">
+  <thead><tr><th>Page</th><th>Size</th><th>Gzipped</th></tr></thead>
+  <tbody>
+    {% for url, w in weights %}
+    <tr>
+      <td><a href="{{ url | url }}" class="unstyled">{{ url }}</a></td>
+      <td>{{ w.bytes | prettyBytes }}</td>
+      <td>{{ w.gzipBytes | prettyBytes }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p class="meta">Page weights populate after the first full <code>npm run build</code>.</p>
+{% endif %}

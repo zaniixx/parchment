@@ -1,0 +1,19 @@
+---
+layout: layouts/base.njk
+---
+<article class="note">
+  <p class="meta"><time datetime="{{ date | isoDate }}">{{ date | readableDate }}</time></p>
+  <div class="article-body">
+    {{ content | safe }}
+  </div>
+  {% if sourceUrl %}<p><a href="{{ sourceUrl }}">{{ sourceUrl }}</a></p>{% endif %}
+  {% if tags %}
+  <ul class="tag-list">
+    {% for tag in tags %}
+      {% if tag != "writing" and tag != "notes" %}
+      <li><a class="tag-pill" href="{{ ('/' + tag + '/') | url }}">{{ tag }}</a></li>
+      {% endif %}
+    {% endfor %}
+  </ul>
+  {% endif %}
+</article>

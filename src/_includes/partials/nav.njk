@@ -1,0 +1,26 @@
+{%- set links = [
+  { href: "/", label: "Home" },
+  { href: "/posts/", label: "Posts" },
+  { href: "/galleries/", label: "Galleries" },
+  { href: "/notes/", label: "Notes" },
+  { href: "/about/", label: "About" }
+] -%}
+
+<nav class="site-nav site-nav--desktop" aria-label="Primary">
+  <ul>
+    {% for link in links %}
+    <li><a href="{{ link.href | url }}" {% if (page.url | url) == (link.href | url) %}aria-current="page"{% endif %}>{{ link.label }}</a></li>
+    {% endfor %}
+  </ul>
+</nav>
+
+<nav class="site-nav-mobile-wrap" aria-label="Primary">
+  <details class="site-nav site-nav--mobile">
+    <summary>Menu</summary>
+    <ul>
+      {% for link in links %}
+      <li><a href="{{ link.href | url }}" {% if (page.url | url) == (link.href | url) %}aria-current="page"{% endif %}>{{ link.label }}</a></li>
+      {% endfor %}
+    </ul>
+  </details>
+</nav>

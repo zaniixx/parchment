@@ -1,0 +1,5 @@
+node_modules/
+_site/
+src/_data/weights.json
+.claude
+.DS_Store

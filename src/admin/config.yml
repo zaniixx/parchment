@@ -1,0 +1,82 @@
+backend:
+  name: github
+  repo: zaniixx/parchment # update if the repo lives under a different owner/name
+  branch: main
+  base_url: https://decap-oauth-proxy.__SUBDOMAIN__.workers.dev # set after deploying the OAuth proxy, see plan §OAuth proxy
+  auth_endpoint: /auth
+
+publish_mode: simple
+
+# Only takes effect when Decap detects it's running on localhost (with
+# `npx decap-server` running alongside `npm start`) - safe to leave in
+# permanently, harmless in production.
+local_backend: true
+
+# NOTE: public_folder intentionally includes the Eleventy pathPrefix ("/parchment",
+# see eleventy.config.js). Decap writes media paths verbatim into front matter and
+# inline into Markdown body text - there's no template hook to add the prefix to an
+# inline `![]()` image after the fact, so it has to already be correct here. If
+# pathPrefix ever changes (e.g. moving to a custom domain, where it becomes "/"),
+# update this to match, or every image inserted before the change will 404.
+media_folder: "src/assets/uploads"
+public_folder: "/parchment/assets/uploads"
+
+collections:
+  - name: posts
+    label: "Posts"
+    folder: "src/content/posts"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    identifier_field: title
+    summary: "{{title}} — {{date}}"
+    sortable_fields: ["date", "title"]
+    fields:
+      - { label: "Title", name: title, widget: string }
+      - { label: "Publish Date", name: date, widget: datetime }
+      - { label: "Draft", name: draft, widget: boolean, default: true }
+      - { label: "Tags", name: tags, widget: list, required: false, hint: "e.g. essay, travel" }
+      - { label: "Cover Image", name: coverImage, widget: image, required: false }
+      - { label: "Excerpt", name: excerpt, widget: text, required: false }
+      - { label: "Body", name: body, widget: markdown }
+
+  - name: galleries
+    label: "Photo Galleries"
+    folder: "src/content/galleries"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    identifier_field: title
+    summary: "{{title}} — {{date}}"
+    fields:
+      - { label: "Title", name: title, widget: string }
+      - { label: "Publish Date", name: date, widget: datetime }
+      - { label: "Draft", name: draft, widget: boolean, default: true }
+      - { label: "Tags", name: tags, widget: list, required: false }
+      - label: "Images"
+        name: images
+        widget: list
+        fields:
+          - { label: "Image", name: src, widget: image }
+          - { label: "Caption", name: caption, widget: string, required: false }
+      - { label: "Intro text", name: body, widget: markdown, required: false }
+
+  - name: notes
+    label: "Notes"
+    folder: "src/content/notes"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    summary: "{{fields.date}} — {{fields.body}}"
+    fields:
+      - { label: "Publish Date", name: date, widget: datetime }
+      - { label: "Draft", name: draft, widget: boolean, default: true }
+      - { label: "Source URL", name: sourceUrl, widget: string, required: false }
+      - { label: "Tags", name: tags, widget: list, required: false }
+      - { label: "Note", name: body, widget: markdown }
+
+  - name: pages
+    label: "Pages"
+    folder: "src/content/pages"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Title", name: title, widget: string }
+      - { label: "Body", name: body, widget: markdown }

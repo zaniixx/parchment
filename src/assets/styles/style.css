@@ -1,0 +1,358 @@
+/* ---------- Theme tokens ---------- */
+:root {
+  --bg: #f6f1e4;
+  --bg-raised: #efe8d6;
+  --fg: #2b2318;
+  --muted: #655c49;
+  --accent: #a1402c;
+  --outline: #ddd3bf;
+
+  --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Times New Roman", serif;
+  --mono: ui-monospace, "Cascadia Code", "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+
+  --measure: 42rem;
+  --space-1: clamp(0.5rem, 0.45rem + 0.25vw, 0.75rem);
+  --space-2: clamp(1rem, 0.9rem + 0.5vw, 1.5rem);
+  --space-3: clamp(2rem, 1.7rem + 1.5vw, 3rem);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #1b1712;
+    --bg-raised: #231e17;
+    --fg: #ece3d2;
+    --muted: #a89c85;
+    --accent: #df8a63;
+    --outline: #3a3226;
+  }
+}
+
+[data-theme="light"] {
+  --bg: #f6f1e4;
+  --bg-raised: #efe8d6;
+  --fg: #2b2318;
+  --muted: #655c49;
+  --accent: #a1402c;
+  --outline: #ddd3bf;
+}
+
+[data-theme="dark"] {
+  --bg: #1b1712;
+  --bg-raised: #231e17;
+  --fg: #ece3d2;
+  --muted: #a89c85;
+  --accent: #df8a63;
+  --outline: #3a3226;
+}
+
+@view-transition {
+  navigation: auto;
+}
+
+/* ---------- Reset ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+img, video { max-width: 100%; height: auto; display: block; }
+
+/* ---------- Base ---------- */
+html {
+  color-scheme: light dark;
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--serif);
+  font-size: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+  line-height: 1.6;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  body {
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+}
+
+a {
+  color: var(--accent);
+}
+
+a:not(.unstyled) {
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.15em;
+}
+
+h1, h2, h3 {
+  line-height: 1.2;
+  font-weight: 600;
+}
+
+h1 { font-size: clamp(1.75rem, 1.5rem + 1.25vw, 2.5rem); }
+h2 { font-size: clamp(1.35rem, 1.2rem + 0.75vw, 1.75rem); }
+
+.container {
+  max-width: var(--measure);
+  margin-inline: auto;
+  padding-inline: var(--space-2);
+}
+
+.lede {
+  color: var(--muted);
+  font-size: 1.1em;
+}
+
+/* ---------- Header / nav ---------- */
+.site-header {
+  border-bottom: 1px solid var(--outline);
+}
+
+.topbar {
+  max-width: var(--measure);
+  margin-inline: auto;
+  padding: var(--space-2);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.site-title {
+  font-weight: 700;
+  font-size: 1.25rem;
+  text-decoration: none;
+  color: var(--fg);
+}
+
+.site-title .accent { color: var(--accent); }
+
+/* Two separate nav blocks (desktop / mobile) rather than one that changes
+   shape at a breakpoint: recent Chromium renders closed <details> content
+   inside an internal containment box that ignores simple `display`
+   overrides on its children (confirmed empirically - a child could compute
+   `display: flex` while its own bounding box still measured zero width), so
+   forcing a <details> to look "always open" at desktop widths isn't
+   reliable. Instead the desktop nav is a plain, always-visible list with no
+   <details> involved at all, and the mobile nav is a real <details> that is
+   simply hidden outright at desktop widths and left to its native,
+   unfought open/closed behavior at mobile ones. */
+.site-nav-mobile-wrap { display: none; }
+
+.site-nav ul {
+  list-style: none;
+  display: flex;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+}
+
+.site-nav a {
+  color: var(--muted);
+  text-decoration: none;
+}
+
+.site-nav a:hover,
+.site-nav a[aria-current="page"] {
+  color: var(--accent);
+}
+
+@media (max-width: 640px) {
+  .topbar { flex-wrap: wrap; }
+
+  .site-nav--desktop { display: none; }
+
+  .site-nav-mobile-wrap {
+    display: block;
+    width: 100%;
+  }
+
+  .site-nav--mobile summary {
+    cursor: pointer;
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 0.85rem;
+  }
+
+  .site-nav--mobile summary::-webkit-details-marker { display: none; }
+
+  .site-nav--mobile ul {
+    flex-direction: column;
+    gap: var(--space-1);
+    padding-top: var(--space-1);
+  }
+}
+
+/* ---------- Theme toggle ---------- */
+.theme-toggle {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.03em;
+  background: transparent;
+  color: var(--muted);
+  border: 1px solid var(--outline);
+  border-radius: 999px;
+  padding: 0.3em 0.8em;
+  cursor: pointer;
+}
+
+.theme-toggle:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+/* ---------- Feed / cards ---------- */
+.feed {
+  list-style: none;
+  margin: var(--space-3) 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.feed-item {
+  padding-bottom: var(--space-2);
+  border-bottom: 1px solid var(--outline);
+}
+
+.feed-item:last-child { border-bottom: none; }
+
+.feed-item .kicker {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.feed-item h2 { margin: 0.2em 0; }
+
+.feed-item h2 a {
+  color: var(--fg);
+  text-decoration: none;
+}
+
+.feed-item h2 a:hover { color: var(--accent); }
+
+.feed-item .excerpt { color: var(--muted); margin: 0.4em 0 0; }
+
+.feed-item.note .note-body {
+  margin: 0.2em 0 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .reveal {
+    opacity: 0;
+    transform: translateY(0.75rem);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+
+  .reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ---------- Tags ---------- */
+.tag-list { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 0.5em; }
+
+.tag-pill {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  color: var(--muted);
+  border: 1px solid var(--outline);
+  border-radius: 999px;
+  padding: 0.2em 0.7em;
+  text-decoration: none;
+}
+
+.tag-pill:hover { color: var(--accent); border-color: var(--accent); }
+
+/* ---------- Gallery ---------- */
+.gallery-grid {
+  list-style: none;
+  margin: var(--space-2) 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+  gap: var(--space-1);
+}
+
+.gallery-grid figure { margin: 0; }
+
+.gallery-grid img {
+  border-radius: 0.25rem;
+  border: 1px solid var(--outline);
+}
+
+.gallery-grid figcaption {
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin-top: 0.3em;
+}
+
+/* ---------- Article ---------- */
+.article-header { margin: var(--space-3) 0 var(--space-2); }
+.article-header .meta { color: var(--muted); font-family: var(--mono); font-size: 0.85rem; }
+
+.article-body :is(p, ul, ol, blockquote, pre) { margin: 1em 0; }
+.article-body img { border-radius: 0.25rem; margin: 1em 0; }
+.article-body blockquote {
+  border-left: 3px solid var(--accent);
+  padding-left: var(--space-1);
+  color: var(--muted);
+  margin-left: 0;
+}
+.article-body pre {
+  background: var(--bg-raised);
+  padding: var(--space-1);
+  overflow-x: auto;
+  border-radius: 0.25rem;
+  font-family: var(--mono);
+  font-size: 0.85rem;
+}
+
+/* ---------- Footer ---------- */
+.site-footer {
+  margin-top: var(--space-3);
+  padding: var(--space-2);
+  border-top: 1px solid var(--outline);
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 0.8rem;
+}
+
+.site-footer .container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5em 1.5em;
+  justify-content: space-between;
+}
+
+/* ---------- Build stats / colophon widget ---------- */
+.build-stats {
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  border: 1px solid var(--outline);
+  border-radius: 0.4rem;
+  padding: var(--space-2);
+  margin: var(--space-2) 0;
+}
+
+.build-stats summary {
+  cursor: pointer;
+  color: var(--muted);
+}
+
+.build-stats dl {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.3em 1em;
+  margin: var(--space-1) 0 0;
+}
+
+.build-stats dt { color: var(--muted); }
+.build-stats dd { margin: 0; }
+
+.weights-table { width: 100%; border-collapse: collapse; font-size: 0.8rem; margin-top: var(--space-1); }
+.weights-table th, .weights-table td { text-align: left; padding: 0.3em 0.6em 0.3em 0; border-bottom: 1px solid var(--outline); }
+.weights-table td:last-child, .weights-table th:last-child { text-align: right; }

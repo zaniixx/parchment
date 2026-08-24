@@ -1,0 +1,36 @@
+---
+layout: layouts/base.njk
+---
+<article>
+  <header class="article-header">
+    <p class="meta"><time datetime="{{ date | isoDate }}">{{ date | readableDate }}</time></p>
+    <h1>{{ title }}</h1>
+    {% if tags %}
+    <ul class="tag-list">
+      {% for tag in tags %}
+        {% if tag != "writing" and tag != "galleries" %}
+        <li><a class="tag-pill" href="{{ ('/' + tag + '/') | url }}">{{ tag }}</a></li>
+        {% endif %}
+      {% endfor %}
+    </ul>
+    {% endif %}
+  </header>
+
+  {% if content %}<div class="article-body">{{ content | safe }}</div>{% endif %}
+
+  {% if images %}
+  <ul class="gallery-grid">
+    {% for image in images %}
+    <li>
+      <figure>
+        {# image.src comes from Decap's media library and already includes the
+           deployed pathPrefix per public_folder in admin/config.yml - do not
+           run it through the `url` filter, that would double-prefix it. #}
+        <img src="{{ image.src }}" alt="{{ image.caption or '' }}" loading="lazy">
+        {% if image.caption %}<figcaption>{{ image.caption }}</figcaption>{% endif %}
+      </figure>
+    </li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+</article>

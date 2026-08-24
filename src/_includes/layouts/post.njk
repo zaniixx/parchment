@@ -1,0 +1,25 @@
+---
+layout: layouts/base.njk
+---
+<article>
+  <header class="article-header">
+    <p class="meta"><time datetime="{{ date | isoDate }}">{{ date | readableDate }}</time></p>
+    <h1>{{ title }}</h1>
+    {% if tags %}
+    <ul class="tag-list">
+      {% for tag in tags %}
+        {% if tag != "writing" and tag != "posts" %}
+        <li><a class="tag-pill" href="{{ ('/' + tag + '/') | url }}">{{ tag }}</a></li>
+        {% endif %}
+      {% endfor %}
+    </ul>
+    {% endif %}
+  </header>
+  {# coverImage comes from Decap's media library and already includes the
+     deployed pathPrefix per public_folder in admin/config.yml - do not run
+     it through the `url` filter, that would double-prefix it. #}
+  {% if coverImage %}<img src="{{ coverImage }}" alt="">{% endif %}
+  <div class="article-body">
+    {{ content | safe }}
+  </div>
+</article>

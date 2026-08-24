@@ -1,0 +1,11 @@
+---
+layout: layouts/base.njk
+---
+<h1>{{ site.title }}</h1>
+<p class="lede">{{ site.description }}</p>
+
+<ul class="feed">
+  {% for item in collections.writing | reverse %}
+    {% include "partials/feed-item.njk" %}
+  {% endfor %}
+</ul>

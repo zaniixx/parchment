@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  {% include "partials/meta.njk" %}
+  <style>{% inlineAsset "src/assets/styles/style.css" %}</style>
+  <script>
+  (function () {
+    var stored;
+    try { stored = localStorage.getItem("parchment-theme"); } catch (err) { stored = null; }
+    var theme = stored || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+    document.documentElement.setAttribute("data-theme", theme);
+  })();
+  </script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="topbar">
+      <a class="site-title unstyled" href="{{ '/' | url }}">Parch<span class="accent">ment</span></a>
+      {% include "partials/nav.njk" %}
+      {% include "partials/theme-toggle.njk" %}
+    </div>
+  </header>
+
+  <main class="container">
+    {{ content | safe }}
+  </main>
+
+  {% include "partials/footer.njk" %}
+
+  <script src="{{ '/assets/scripts/main.js' | url }}" defer></script>
+</body>
+</html>
