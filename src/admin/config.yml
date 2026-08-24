@@ -2,7 +2,7 @@ backend:
   name: github
   repo: zaniixx/parchment # update if the repo lives under a different owner/name
   branch: main
-  base_url: https://decap-oauth-proxy.__SUBDOMAIN__.workers.dev # set after deploying the OAuth proxy, see plan §OAuth proxy
+  base_url: https://decap-oauth-proxy.abdulla-mmiv.workers.dev
   auth_endpoint: /auth
 
 publish_mode: simple
