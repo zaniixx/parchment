@@ -1,9 +1,10 @@
 ---
-title: "Hello, world"
+title: Hello, world
 date: 2026-08-24
-draft: false
-tags: ["meta"]
-excerpt: "The first post on Parchment - what this place is for."
+draft: true
+tags:
+  - meta
+excerpt: The first post on Parchment - what this place is for.
 ---
 This is Parchment: a small, hand-built, deliberately light blog. No client-side framework, no database beyond a handful of Markdown files, and a page-weight counter in the footer to keep it honest.
 
