@@ -2,6 +2,7 @@ import { readFileSync } from "node:fs";
 
 export default function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy("src/admin");
+  eleventyConfig.addPassthroughCopy("src/favicon.ico");
   eleventyConfig.addPassthroughCopy("src/assets/scripts");
   eleventyConfig.addPassthroughCopy("src/assets/uploads");
 
