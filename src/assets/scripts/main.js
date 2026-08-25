@@ -62,6 +62,119 @@
   });
 })();
 
+(function siteSearch() {
+  var input = document.getElementById("site-search-input");
+  var results = document.getElementById("site-search-results");
+  if (!input || !results) return;
+
+  var indexUrl = input.getAttribute("data-search-index");
+  var entries = null;
+  var loading = null;
+
+  function ensureLoaded() {
+    if (entries) return Promise.resolve(entries);
+    if (!loading) {
+      loading = fetch(indexUrl)
+        .then(function (res) {
+          return res.json();
+        })
+        .then(function (data) {
+          entries = data;
+          return entries;
+        })
+        .catch(function () {
+          entries = [];
+          return entries;
+        });
+    }
+    return loading;
+  }
+
+  function render(matches) {
+    results.innerHTML = "";
+
+    if (!matches.length) {
+      var empty = document.createElement("li");
+      empty.className = "site-search-empty";
+      empty.textContent = "No matches.";
+      results.appendChild(empty);
+      results.hidden = false;
+      return;
+    }
+
+    matches.slice(0, 8).forEach(function (item) {
+      var li = document.createElement("li");
+      var a = document.createElement("a");
+      a.href = item.url;
+      a.textContent = item.title;
+      li.appendChild(a);
+      if (item.excerpt) {
+        var p = document.createElement("p");
+        p.className = "site-search-excerpt";
+        p.textContent = item.excerpt;
+        li.appendChild(p);
+      }
+      results.appendChild(li);
+    });
+    results.hidden = false;
+  }
+
+  function runSearch(query) {
+    query = query.trim();
+    if (!query) {
+      results.hidden = true;
+      results.innerHTML = "";
+      return;
+    }
+
+    ensureLoaded().then(function (data) {
+      var matches;
+      if (query.charAt(0) === "#") {
+        var tag = query.slice(1).toLowerCase();
+        matches = !tag
+          ? []
+          : data.filter(function (item) {
+              return (item.tags || []).some(function (t) {
+                return t.toLowerCase().indexOf(tag) !== -1;
+              });
+            });
+      } else {
+        var q = query.toLowerCase();
+        matches = data.filter(function (item) {
+          return (
+            item.title.toLowerCase().indexOf(q) !== -1 ||
+            (item.excerpt || "").toLowerCase().indexOf(q) !== -1
+          );
+        });
+      }
+      render(matches);
+    });
+  }
+
+  input.addEventListener("focus", function () {
+    ensureLoaded();
+  });
+
+  input.addEventListener("input", function () {
+    runSearch(input.value);
+  });
+
+  input.addEventListener("keydown", function (event) {
+    if (event.key === "Escape") {
+      input.value = "";
+      results.hidden = true;
+      results.innerHTML = "";
+      input.blur();
+    }
+  });
+
+  document.addEventListener("click", function (event) {
+    if (!event.target.closest(".site-search")) {
+      results.hidden = true;
+    }
+  });
+})();
+
 function reportNetworkTiming() {
   var body = document.getElementById("net-timing-body");
   if (!body) return;
