@@ -183,11 +183,40 @@ h2 { font-size: clamp(1.35rem, 1.2rem + 0.75vw, 1.75rem); }
 }
 
 /* ---------- Search ---------- */
-.site-search {
-  position: relative;
-  flex: 1;
-  min-width: 8rem;
-  max-width: 16rem;
+.site-search { position: relative; }
+
+.search-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.2em;
+  height: 2.2em;
+  padding: 0;
+  background: transparent;
+  color: var(--muted);
+  border: 1px solid var(--outline);
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.search-toggle svg { width: 1.1em; height: 1.1em; }
+
+.search-toggle:hover,
+.search-toggle[aria-expanded="true"] {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.site-search-panel {
+  position: absolute;
+  z-index: 10;
+  top: calc(100% + 0.5em);
+  right: 0;
+  width: min(20rem, 90vw);
+  padding: 0.6em;
+  background: var(--bg-raised);
+  border: 1px solid var(--outline);
+  border-radius: 0.6em;
 }
 
 .site-search-input {
@@ -208,18 +237,10 @@ h2 { font-size: clamp(1.35rem, 1.2rem + 0.75vw, 1.75rem); }
 }
 
 .site-search-results {
-  position: absolute;
-  z-index: 10;
-  top: calc(100% + 0.5em);
-  left: 0;
-  right: 0;
-  margin: 0;
-  padding: 0.4em;
+  margin: 0.5em 0 0;
+  padding: 0;
   list-style: none;
-  background: var(--bg-raised);
-  border: 1px solid var(--outline);
-  border-radius: 0.5em;
-  max-height: 60vh;
+  max-height: 50vh;
   overflow-y: auto;
 }
 
@@ -249,10 +270,6 @@ h2 { font-size: clamp(1.35rem, 1.2rem + 0.75vw, 1.75rem); }
   padding: 0.4em 0.5em;
   color: var(--muted);
   font-size: 0.85rem;
-}
-
-@media (max-width: 640px) {
-  .site-search { flex-basis: 100%; max-width: none; }
 }
 
 /* ---------- Theme toggle ---------- */
