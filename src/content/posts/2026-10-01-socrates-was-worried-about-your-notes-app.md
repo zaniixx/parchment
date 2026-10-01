@@ -34,7 +34,7 @@ If they're right, a well-kept notebook isn't a crutch. It's more mind.
 
 ## Where I've landed
 
-Thamus's warning is true of notes you write once and never touch again. That isn't a second brain, it's a filing cabinet. The fix is to keep coming back: link notes to each other, revisit them, and use spaced repetition for the things you actually want in your head.
+Thamus's warning is true of notes you write once and never touch again. That isn't a second brain, it's a filing cabinet. The fix is to keep coming back: link notes to each other, revisit them, and use [spaced repetition](/parchment/posts/spaced-repetition/) for the things you actually want in your head.
 
 > **About this post**
 > It started as a note in my Obsidian vault. Notes I tag there are published here automatically.
