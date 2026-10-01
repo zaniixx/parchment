@@ -26,5 +26,5 @@ Memories fade along a predictable curve, and every well-timed review makes the c
 ## Related
 
 - Does a second brain make you forget: notes only cause forgetting if you never revisit them
-- [Socrates Was Worried About Your Notes App](/parchment/posts/socrates-was-worried-about-your-notes-app/)
+- Socrates Was Worried About Your Notes App
 - Next: make cards from class notes, not just books
